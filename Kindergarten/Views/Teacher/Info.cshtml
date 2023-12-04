@@ -1,0 +1,37 @@
+﻿﻿@{
+    ViewData["Title"] = "Информация о воспитателе";
+}
+@using Entities.DataTransferObjects;
+@model KindergartenTeacherDTO
+
+<div>
+    <h3>Информация о воспитателе </h3>
+    
+    <p>
+        <label>ФИО: @Model.FullName</label><br />
+    </p>
+    <p>
+        <label>Адрес: @Model.Address</label><br />
+    </p>
+    <p>
+        <label>Мобильный телефон: @Model.PhoneNumber</label><br />
+    </p>
+    <p>
+        <label>Опыт: @Model.ExperienceInfo</label><br />
+    </p>
+    <p>
+        <label>Награды: @Model.AwardsInfo</label><br />
+    </p>
+    @if(Model.Groups.Count() > 0)
+    {
+        <p>
+            <label>Список групп:</label><br />
+            @foreach (var group in Model.Groups)
+            {
+                <label>@group.Name</label>
+                <br/>
+            }
+        </p>
+    }
+    
+</div>

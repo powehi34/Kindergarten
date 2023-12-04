@@ -1,0 +1,26 @@
+﻿﻿@{
+    ViewData["Title"] = "Информация о группе";
+}
+@using Entities.DataTransferObjects;
+@model GroupDTO
+
+<div>
+    <h3>Информация о группе "@Model.Name"</h3>
+    <p>
+        <label>Год создания: @Model.CreationYear</label><br />
+    </p>
+    <p>
+        <label>Тип группы: @Model.GroupType.Name</label><br />
+    </p>
+    <p>
+        <label>Воспитатель: @Model.KindergartenTeacher.FullName</label><br />
+    </p>
+    <p>
+        <label>Список детей</label><br />
+        @foreach (var child in Model.Members)
+        {
+            <label>@child.FullName - @child.BirthDate.ToShortDateString()</label>
+            <br/>
+        }
+    </p>
+</div>

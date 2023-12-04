@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Создание типа группы";
+}
+@using Entities;
+@using (Html.BeginForm("Create", "GroupType", FormMethod.Post, new { id = "addForm" }))
+{
+    <h3>Добавление типа группы</h3>
+    <p>
+        <label>Тип группы</label><br />
+        <input type="text" name="Name" required />
+    </p>
+    <p>
+        <label>Описание</label><br />
+        <input type="text" name="Description" />
+    </p>
+    <p>
+        <input type="submit" value="Создать" />
+    </p>
+}
+
+<script>
+    $("#addForm").validate({
+        rules: {
+            Name: {
+                required: true
+            }
+        },
+        messages: {
+            Name: "<h5 class=\"text-danger\">Введите тип группы</h5>"
+        }
+    })
+</script>

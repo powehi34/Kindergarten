@@ -1,0 +1,48 @@
+﻿@using Kindergarten.Models.GroupModels;
+@{
+    ViewData["Title"] = "Обновление информации о группе";
+}
+@model GroupForUpdateViewModel;
+@using (Html.BeginForm("Update", "Group", FormMethod.Post, new { id = "updateForm" }))
+{
+    <input name="Id" value="@Model.Group.Id" hidden/>
+    <h3>Обновление группы</h3>
+    <p>
+        <label>Название:</label><br />
+        <input type="text" name="Name" value="@Model.Group.Name" required />
+    </p>
+    <p>
+        <label>Год создания:</label><br />
+        <input type="number" min="2000" name="CreationYear" value="@Model.Group.CreationYear" required />
+    </p>
+    <p>
+        <label>Тип:</label><br />
+        @Html.DropDownList("GroupTypeId", Model.GroupTypeSelectList)
+    </p>
+    <p>
+        <label>Воспитатель:</label><br />
+        @Html.DropDownList("KindergartenTeacherId", Model.TeacherSelectList)
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+}
+
+<script>
+    $("#updateForm").validate({
+        rules: {
+            Name: {
+                required: true
+            }
+        },
+        rules: {
+            CreationYear: {
+                required: true
+            }
+        },
+        messages: {
+            Name: "<h5 class=\"text-danger\">Введите тип группы</h5>",
+            Name: "<h5 class=\"text-danger\">Введите год создания</h5>"
+        }
+    })
+</script>

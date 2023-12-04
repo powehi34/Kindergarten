@@ -1,0 +1,54 @@
+﻿@using Entities.DataTransferObjects;
+@{
+    ViewData["Title"] = "Обновление информации о воспитателе";
+}
+@model KindergartenTeacherDTO
+@using (Html.BeginForm("Update", "Teacher", FormMethod.Post, new { id = "updateForm" }))
+{
+    <input name="Id" value="@Model.Id" hidden/>
+    <h3>Добавление воспитателя</h3>
+    <p>
+        <label>ФИО:</label><br />
+        <input type="text" name="FullName" value="@Model.FullName" required />
+    </p>
+    <p>
+        <label>Адрес:</label><br />
+        <input type="text" name="Address" value="@Model.Address" required />
+    </p>
+    <p>
+        <label>Мобильный телефон:</label><br />
+        <input type="tel" name="PhoneNumber" value="@Model.PhoneNumber" required />
+    </p>
+    <p>
+        <label>Опыт работы:</label><br />
+        <input type="text" name="ExperienceInfo" value="@Model.ExperienceInfo" />
+    </p>
+    <p>
+        <label>Награды:</label><br />
+        <input type="text" name="AwardsInfo" value="@Model.AwardsInfo"/>
+    </p>
+    <p>
+        <input type="submit" value="Обновить" />
+    </p>
+}
+
+<script>
+    $("#updateForm").validate({
+        rules: {
+            FullName: {
+                required: true
+            },
+            Address: {
+                required: true
+            },
+            PhoneNumber: {
+                required: true
+            }
+        },
+        messages: {
+            FullName: "<h5 class=\"text-danger\">Введите ФИО</h5>",
+            Address: "<h5 class=\"text-danger\">Введите адрес</h5>",
+            PhoneNumber: "<h5 class=\"text-danger\">Введите номер телефона</h5>"
+        }
+    })
+</script>

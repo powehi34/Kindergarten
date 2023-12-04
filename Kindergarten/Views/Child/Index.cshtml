@@ -1,0 +1,117 @@
+﻿@using Kindergarten.Models.ChildModels;
+﻿@{
+    ViewData["Title"] = "Список детей";
+}
+@model ChildIndexViewModel
+<div>
+    <h2>@Html.ActionLink("добавить", "CreateView", "Child", null, new { @class="btn btn-sm btn-dark" })</h2>
+    <form method="get">
+        <label>ФИО ребенка: </label>
+        <input name="fullName" value="@Model.FilterModel.FullName" />
+
+        <label>ФИО матери: </label>
+        <input name="motherFullName" value="@Model.FilterModel.MotherFullName" />
+
+        <label>ФИО отца: </label>
+        <input name="fatherFullName" value="@Model.FilterModel.FatherFullName" />
+
+        <label>Группа: </label>
+        <input name="groupName" value="@Model.FilterModel.GroupName" />
+        <input type="submit" value="Фильтровать" class="btn btn-outline-dark" />
+    </form>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>
+                @Html.ActionLink("ФИО", "Index", "Child", new { 
+                    fullName=Model.FilterModel.FullName,
+                    motherFullName=Model.FilterModel.MotherFullName,
+                    fatherFullName=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "fullname_asc" ? "fullname_desc" : "fullname_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Пол", "Index", "Child", new {
+                    fullName=Model.FilterModel.FullName,
+                    motherFullName=Model.FilterModel.MotherFullName,
+                    fatherFullName=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "sex_asc" ? "sex_desc" : "sex_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("ФИО отца", "Index", "Child", new {
+                    fullName=Model.FilterModel.FullName,
+                    motherFullName=Model.FilterModel.MotherFullName,
+                    fatherFullName=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "fatherfullname_asc" ? "fatherfullname_desc" : "fatherfullname_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("ФИО матери", "Index", "Child", new {
+                    fullName=Model.FilterModel.FullName,
+                    motherFullName=Model.FilterModel.MotherFullName,
+                    fatherFullName=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "motherfullname_asc" ? "motherfullname_desc" : "motherfullname_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Дата рождения", "Index", "Child", new {
+                    fullName=Model.FilterModel.FullName,
+                    motherFullName=Model.FilterModel.MotherFullName,
+                    fatherFullName=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "birthdate_asc" ? "birthdate_desc" : "birthdate_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Название группы", "Index", "Child", new {
+                    fullName=Model.FilterModel.FullName,
+                    motherFullname=Model.FilterModel.MotherFullName,
+                    fatherFullname=Model.FilterModel.FatherFullName,
+                    sortType=Model.SortType == "groupname_asc" ? "groupname_desc" : "groupname_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Children)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                @if (item.Sex == 0)
+                {
+                    <td>Ж</td>
+                }
+                else
+                {
+                    <td>М</td>
+                }
+                <td>@item.FatherFullName</td>
+                <td>@item.MotherFullName</td>
+                <td>@item.BirthDate.ToShortDateString()</td>
+                <td>@item.Group.Name</td>
+                
+                <td>@Html.ActionLink("изменить", "UpdateView", "Child", new { id=item.Id }, new { @class="btn btn-sm btn-primary" })</td>
+                <td>@Html.ActionLink("удалить", "Delete", "Child", new { id=item.Id }, new { @class="btn btn-sm btn-danger" })</td>
+            </tr>
+        }
+    </table>
+    @if (Model.PaginationModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Назад
+        </a>
+    }
+    @if (Model.PaginationModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Вперед
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }
+</div>

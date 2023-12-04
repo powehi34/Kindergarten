@@ -1,0 +1,68 @@
+﻿@using Kindergarten.Models.ChildModels;
+@{
+    ViewData["Title"] = "Обновление информации о ребенке";
+}
+@model ChildForUpdateViewModel;
+@using (Html.BeginForm("Update", "Child", FormMethod.Post, new { id = "updateForm" }))
+{
+    <h3>Обновление информации о ребенке</h3>
+    <input name="Id" value="@Model.Child.Id" hidden/>
+    <p>
+        <label>ФИО:</label><br />
+        <input type="text" name="FullName" value="@Model.Child.FullName" required />
+    </p>
+    <p>
+        <select name="Sex">
+            @if(Model.Child.Sex == 0)
+            {
+                <option value="0" selected>девочка</option>
+                <option value="1">мальчик</option>
+            }
+            else
+            {
+                <option value="0">девочка</option>
+                <option value="1" selected>мальчик</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>ФИО отца:</label><br />
+        <input type="text" name="FatherFullName" value="@Model.Child.FatherFullName" required />
+    </p>
+    <p>
+        <label>ФИО матери:</label><br />
+        <input type="text" name="MotherFullName" value="@Model.Child.MotherFullName" required />
+    </p>
+    <p>
+        <label>Дата рождения</label><br />
+        <input type="date" name="BirthDate" value="@Model.Child.BirthDate.ToString("yyyy-MM-dd")" required />
+    </p>
+    <p>
+        <label>Группа:</label><br />
+        @Html.DropDownList("GroupId", new SelectList(Model.Groups, "Id", "Name", Model.Child.Group.Id))
+    </p>
+    <p>
+        <input type="submit" value="Обновить" />
+    </p>
+}
+
+<script>
+    $("#updateForm").validate({
+        rules: {
+            FullName: {
+                required: true
+            },
+            FatherFullName: {
+                required: true
+            },
+            MotherFullName: {
+                required: true
+            }
+        },
+        messages: {
+            FullName: "<h5 class=\"text-danger\">Введите ФИО ребенка</h5>",
+            FatherFullName: "<h5 class=\"text-danger\">Введите ФИО отца</h5>",
+            MotherFullName: "<h5 class=\"text-danger\">Введите ФИО матери</h5>"
+        }
+    })
+</script>

@@ -1,0 +1,84 @@
+﻿@using Kindergarten.Models.GroupModels;
+﻿@{
+    ViewData["Title"] = "Список типов групп";
+}
+@model GroupIndexViewModel
+<div>
+    <h2>@Html.ActionLink("добавить", "CreateView", "Group", null, new { @class="btn btn-sm btn-dark" })</h2>
+    <form method="get">
+        <label>Название группы: </label>
+        <input name="groupName" value="@Model.FilterModel.Name" />
+
+        <label>Навзвание типа группы: </label>
+        <input name="groupType" value="@Model.FilterModel.GroupType" />
+
+        <input type="submit" value="Фильтровать" class="btn btn-outline-dark" />
+    </form>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>
+                @Html.ActionLink("Название группы", "Index", "Group", new { 
+                    group=Model.FilterModel.Name,
+                    groupType=Model.FilterModel.GroupType,
+                    sortType=Model.SortType == "name_asc" ? "name_desc" : "name_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Год создания", "Index", "Group", new { 
+                    group=Model.FilterModel.Name,
+                    groupType=Model.FilterModel.GroupType,
+                    sortType=Model.SortType == "creationyear_asc" ? "creationyear_desc" : "creationyear_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Тип группы", "Index", "Group", new {
+                    group=Model.FilterModel.Name,
+                    groupType=Model.FilterModel.GroupType,
+                    sortType=Model.SortType == "grouptype_asc" ? "grouptype_desc" : "grouptype_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Воспитатель", "Index", "Group", new { 
+                    group=Model.FilterModel.Name,
+                    groupType=Model.FilterModel.GroupType,
+                    sortType=Model.SortType == "teachername_asc" ? "teachername_desc" : "teachername_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Groups)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.CreationYear</td>
+                <td>@item.GroupType.Name</td>
+                <td>@item.KindergartenTeacher.FullName</td>
+                <td>@Html.ActionLink("подробно", "Info", "Group", new { id=item.Id }, new { @class="btn btn-sm btn-info" })</td>
+                <td>@Html.ActionLink("изменить", "UpdateView", "Group", new { id=item.Id }, new { @class="btn btn-sm btn-primary" })</td>
+                <td>@Html.ActionLink("удалить", "Delete", "Group", new { id=item.Id }, new { @class="btn btn-sm btn-danger" })</td>
+            </tr>
+        }
+    </table>
+    @if (Model.PaginationModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Назад
+        </a>
+    }
+    @if (Model.PaginationModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Вперед
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }
+</div>

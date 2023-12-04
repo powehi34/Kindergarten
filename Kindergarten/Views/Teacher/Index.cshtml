@@ -1,0 +1,86 @@
+﻿﻿@{
+    ViewData["Title"] = "Список воспитателей";
+}
+@using Kindergarten.Models.TeacherModels;
+@model TeacherIndexViewModel
+<div>
+    <h2>@Html.ActionLink("добавить", "CreateView", "Teacher", null, new { @class="btn btn-sm btn-dark" })</h2>
+    <form method="get">
+        <label>ФИО: </label>
+        <input name="teacherName" value="@Model.FilterModel.Name" />
+
+        <label>Адрес: </label>
+        <input name="address" value="@Model.FilterModel.Address" />
+
+        <label>Мобильный телефон: </label>
+        <input name="phoneNumber" value="@Model.FilterModel.PhoneNumber" />
+
+        <input type="submit" value="Фильтровать" class="btn btn-outline-dark" />
+    </form>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>
+                @Html.ActionLink("ФИО", "Index", "Teacher", new { 
+                    teacherName=Model.FilterModel.Name,
+                    address=Model.FilterModel.Address,
+                    phoneNumber=Model.FilterModel.PhoneNumber,
+                    sortType=Model.SortType == "fullname_asc" ? "fullname_desc" : "fullname_asc",
+                    }, new { @class="btn btn-sm" })
+            </th>
+            <th>
+                @Html.ActionLink("Адрес", "Index", "Teacher", new { 
+                    teacherName=Model.FilterModel.Name,
+                    address=Model.FilterModel.Address,
+                    phoneNumber=Model.FilterModel.PhoneNumber,
+                    sortType=Model.SortType == "address_asc" ? "address_desc" : "address_asc",
+                    }, new { @class="btn btn-sm" })    
+            </th>
+            <th>
+                @Html.ActionLink("Мобильный телефон", "Index", "Teacher", new { 
+                    teacherName=Model.FilterModel.Name,
+                    address=Model.FilterModel.Address,
+                    phoneNumber=Model.FilterModel.PhoneNumber,
+                    sortType=Model.SortType == "phonenumber_asc" ? "phonenumber_desc" : "phonenumber_asc",
+                    }, new { @class="btn btn-sm" }) 
+            </th>
+            <th>Опыт работы</th>
+            <th>Награды</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Teachers)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.Address</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.ExperienceInfo</td>
+                <td>@item.AwardsInfo</td>
+                <td>@Html.ActionLink("подробно", "Info", "Teacher", new { id=item.Id }, new { @class="btn btn-sm btn-info" })</td>
+                <td>@Html.ActionLink("изменить", "UpdateView", "Teacher", new { id=item.Id }, new { @class="btn btn-sm btn-primary" })</td>
+                <td>@Html.ActionLink("удалить", "Delete", "Teacher", new { id=item.Id }, new { @class="btn btn-sm btn-danger" })</td>
+            </tr>
+        }
+    </table>
+    @if (Model.PaginationModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Назад
+        </a>
+    }
+    @if (Model.PaginationModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PaginationModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Вперед
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }
+</div>

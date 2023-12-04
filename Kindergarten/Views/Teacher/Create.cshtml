@@ -1,0 +1,52 @@
+﻿@using Entities.DataTransferObjects;
+@{
+    ViewData["Title"] = "Создание воспитателя";
+}
+@using (Html.BeginForm("Create", "Teacher", FormMethod.Post, new { id = "addForm" }))
+{
+    <h3>Добавление воспитателя</h3>
+    <p>
+        <label>ФИО:</label><br />
+        <input type="text" name="FullName" required />
+    </p>
+    <p>
+        <label>Адрес:</label><br />
+        <input type="text" name="Address" required />
+    </p>
+    <p>
+        <label>Мобильный телефон:</label><br />
+        <input type="tel" name="PhoneNumber" required />
+    </p>
+    <p>
+        <label>Опыт работы:</label><br />
+        <input type="text" name="ExperienceInfo" />
+    </p>
+    <p>
+        <label>Награды:</label><br />
+        <input type="text" name="AwardsInfo" />
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+}
+
+<script>
+    $("#addForm").validate({
+        rules: {
+            FullName: {
+                required: true
+            },
+            Address: {
+                required: true
+            },
+            PhoneNumber: {
+                required: true
+            }
+        },
+        messages: {
+            FullName: "<h5 class=\"text-danger\">Введите ФИО</h5>",
+            Address: "<h5 class=\"text-danger\">Введите адрес</h5>",
+            PhoneNumber: "<h5 class=\"text-danger\">Введите номер телефона</h5>"
+        }
+    })
+</script>

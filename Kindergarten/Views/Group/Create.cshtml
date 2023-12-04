@@ -1,0 +1,37 @@
+﻿@using Kindergarten.Models.GroupModels;
+@{
+    ViewData["Title"] = "Создание группы";
+}
+@model GroupForCreationViewModel;
+@using (Html.BeginForm("Create", "Group", FormMethod.Post, new { id = "addForm" }))
+{
+    <h3>Добавление группы</h3>
+    <p>
+        <label>Название:</label><br />
+        <input type="text" name="Name" required />
+    </p>
+    <p>
+        <label>Тип:</label><br/>
+        @Html.DropDownList("GroupTypeId", new SelectList(Model.GroupTypes, "Id", "Name"))
+    </p>
+    <p>
+        <label>Воспитатель:</label><br />
+        @Html.DropDownList("KindergartenTeacherId", new SelectList(Model.Teachers, "Id", "FullName"))
+    </p>
+    <p>
+        <input type="submit" value="Создать" />
+    </p>
+}
+
+<script>
+    $("#addForm").validate({
+        rules: {
+            Name: {
+                required: true
+            }
+        },
+        messages: {
+            Name: "<h5 class=\"text-danger\">Введите тип группы</h5>"
+        }
+    })
+</script>

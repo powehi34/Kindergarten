@@ -1,0 +1,59 @@
+﻿@using Entities.DataTransferObjects;
+@{
+    ViewData["Title"] = "Добавление ребенка";
+}
+@model IEnumerable<GroupDTO>;
+@using (Html.BeginForm("Create", "Child", FormMethod.Post, new { id = "addForm" }))
+{
+    <h3>Добавление ребенка</h3>
+    <p>
+        <label>ФИО:</label><br />
+        <input type="text" name="FullName" required />
+    </p>
+    <p>
+        <select name="Sex">
+            <option value="0" selected>девочка</option>
+            <option value="1">мальчик</option>
+        </select>
+    </p>
+    <p>
+        <label>ФИО отца:</label><br />
+        <input type="text" name="FatherFullName" required />
+    </p>
+    <p>
+        <label>ФИО матери:</label><br />
+        <input type="text" name="MotherFullName" required />
+    </p>
+    <p>
+        <label>Дата рождения</label><br />
+        <input type="date" name="BirthDate" required />
+    </p>
+    <p>
+        <label>Группа:</label><br/>
+        @Html.DropDownList("GroupId", new SelectList(Model, "Id", "Name"))
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+}
+
+<script>
+    $("#addForm").validate({
+        rules: {
+            FullName: {
+                required: true
+            },
+            FatherFullName: {
+                required: true
+            },
+            MotherFullName: {
+                required: true
+            }
+        },
+        messages: {
+            FullName: "<h5 class=\"text-danger\">Введите ФИО ребенка</h5>",
+            FatherFullName: "<h5 class=\"text-danger\">Введите ФИО отца</h5>",
+            MotherFullName: "<h5 class=\"text-danger\">Введите ФИО матери</h5>"
+        }
+    })
+</script>
